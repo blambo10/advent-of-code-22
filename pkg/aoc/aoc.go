@@ -1,7 +1,7 @@
 package aoc
 
 type AOC struct {
-	DayInputs map[int]*string
+	DayInputs map[int]map[int][]string
 }
 
 func New() *AOC {
@@ -13,18 +13,20 @@ func New() *AOC {
 
 func (a *AOC) GetInputData() error {
 
-	inputData := make(map[int]*string)
+	inputData := make(map[int]map[int][]string)
 
 	days := 25
 	day := 1
 	for day <= days {
-		data, err := GetInputs(1)
+		aggregateData, err := getInputs(1)
 
 		if err != nil {
 			continue
 		}
 
-		inputData[day] = data
+		segregateData := processInputs(*aggregateData)
+
+		inputData[day] = segregateData
 
 		day++
 	}

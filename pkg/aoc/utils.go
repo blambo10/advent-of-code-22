@@ -6,9 +6,10 @@ import (
 	"github.com/blambo10/advent-of-code-22/pkg/utils"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
-func GetInputs(day int) (*string, error) {
+func getInputs(day int) (*string, error) {
 
 	//var data interface{}
 	cfg := config.GetAOCConfig()
@@ -31,4 +32,50 @@ func GetInputs(day int) (*string, error) {
 	data := string(resp.Body())
 
 	return &data, nil
+}
+
+// func processInputs(s string) map[int][]string {
+func processInputs(s string) map[int][]string {
+	elves := make(map[int][]string)
+
+	inputDataAggregate := strings.Split(s, " \n")
+
+	for i, inputData := range inputDataAggregate {
+		var processedData []string
+		data := strings.Split(inputData, "\n")
+
+		for _, d := range data {
+
+			if d != "" {
+				processedData = append(processedData, d)
+			}
+
+		}
+		elves[i] = processedData
+	}
+
+	return elves
+}
+
+func ProcessDayOne(elfData map[int][]string) map[int]int {
+
+	elfCalories := make(map[int]int)
+
+	for i, elf := range elfData {
+		calculated := 0
+		for _, data := range elf {
+			calories, err := strconv.Atoi(data)
+
+			if err != nil {
+				fmt.Println(data)
+				fmt.Println(err)
+				continue
+			}
+			calculated += calories
+		}
+
+		elfCalories[i] = calculated
+	}
+
+	return elfCalories
 }
