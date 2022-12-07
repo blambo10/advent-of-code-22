@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-func getInputs(day int) (*string, error) {
+func getCalories() (*string, error) {
 
 	//var data interface{}
 	cfg := config.GetAOCConfig()
 	client := utils.GetRestyClient().R()
-	url := fmt.Sprintf("https://%s/2022/day/%s/input", cfg.URL, strconv.Itoa(day))
+	url := fmt.Sprintf("https://%s/2022/day/%s/input", cfg.URL, "1")
 
 	resp, err := client.SetCookie(&http.Cookie{
 		Name:  "session",
@@ -34,30 +34,27 @@ func getInputs(day int) (*string, error) {
 	return &data, nil
 }
 
-// func processInputs(s string) map[int][]string {
-func processInputs(s string) map[int][]string {
+// func processCalories(s string) map[int][]string {
+func processCalories(s string) map[int][]string {
 	elves := make(map[int][]string)
 
-	inputDataAggregate := strings.Split(s, " \n")
+	inputDataAggregate := strings.Split(s, "\n")
 
-	for i, inputData := range inputDataAggregate {
-		var processedData []string
-		data := strings.Split(inputData, "\n")
+	elf := 0
+	for _, inputData := range inputDataAggregate {
 
-		for _, d := range data {
-
-			if d != "" {
-				processedData = append(processedData, d)
-			}
-
+		if inputData == "" {
+			elf++
+			continue
 		}
-		elves[i] = processedData
+
+		elves[elf] = append(elves[elf], inputData)
 	}
 
 	return elves
 }
 
-func ProcessDayOne(elfData map[int][]string) map[int]int {
+func GetElfCaloriesByElf(elfData map[int][]string) map[int]int {
 
 	elfCalories := make(map[int]int)
 

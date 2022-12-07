@@ -1,37 +1,33 @@
 package aoc
 
 type AOC struct {
-	DayInputs map[int]map[int][]string
+	ElvesCalories map[int]int
 }
 
 func New() *AOC {
 	a := AOC{}
-	a.GetInputData()
+	a.Init()
 
 	return &a
 }
 
-func (a *AOC) GetInputData() error {
+func (a *AOC) Init() error {
 
-	inputData := make(map[int]map[int][]string)
+	inputData := make(map[int][]string)
 
-	days := 25
-	day := 1
-	for day <= days {
-		aggregateData, err := getInputs(1)
+	aggregateData, err := getCalories()
 
-		if err != nil {
-			continue
-		}
-
-		segregateData := processInputs(*aggregateData)
-
-		inputData[day] = segregateData
-
-		day++
+	if err != nil {
+		return err
 	}
 
-	a.DayInputs = inputData
+	segregateCalories := processCalories(*aggregateData)
+
+	inputData = segregateCalories
+
+	caloriesByElf := GetElfCaloriesByElf(inputData)
+
+	a.ElvesCalories = caloriesByElf
 
 	return nil
 }
