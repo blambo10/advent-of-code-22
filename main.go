@@ -9,11 +9,13 @@ import (
 
 func main() {
 	args := os.Args[0:]
+	day := args[1]
 
 	a := aoc.New()
 
-	switch args[1] {
+	switch day {
 	case "1":
+		a.Day(day)
 		var cal []int
 		highestCalories := 0
 
@@ -37,6 +39,14 @@ func main() {
 
 		fmt.Println(first + second + third)
 	case "2":
+		err := a.Day(day)
 
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		totalScore := aoc.GetTotalScore(a.SPRMatchData)
+
+		fmt.Println(totalScore)
 	}
 }
